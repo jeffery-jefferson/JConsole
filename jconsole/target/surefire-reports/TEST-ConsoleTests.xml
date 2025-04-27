@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" version="3.0.2" name="ConsoleTests" time="0.201" tests="2" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" version="3.0.2" name="ConsoleTests" time="0.601" tests="3" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="21"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
@@ -13,7 +13,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="AU"/>
     <property name="sun.boot.library.path" value="/Library/Java/JavaVirtualMachines/jdk-21.jdk/Contents/Home/lib"/>
-    <property name="sun.java.command" value="/Users/mark/Documents/Projects/java/console/jconsole/target/surefire/surefirebooter-20250427203007623_3.jar /Users/mark/Documents/Projects/java/console/jconsole/target/surefire 2025-04-27T20-30-07_326-jvmRun1 surefire-20250427203007623_1tmp surefire_0-20250427203007623_2tmp"/>
+    <property name="sun.java.command" value="/Users/mark/Documents/Projects/java/console/jconsole/target/surefire/surefirebooter-20250427222739694_3.jar /Users/mark/Documents/Projects/java/console/jconsole/target/surefire 2025-04-27T22-27-39_206-jvmRun1 surefire-20250427222739694_1tmp surefire_0-20250427222739694_2tmp"/>
     <property name="http.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="/Users/mark/Documents/Projects/java/console/jconsole/target/test-classes:/Users/mark/Documents/Projects/java/console/jconsole/target/classes:/Users/mark/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.11.0/junit-jupiter-api-5.11.0.jar:/Users/mark/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/Users/mark/.m2/repository/org/junit/platform/junit-platform-commons/1.11.0/junit-platform-commons-1.11.0.jar:/Users/mark/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/Users/mark/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.11.0/junit-jupiter-engine-5.11.0.jar:/Users/mark/.m2/repository/org/junit/platform/junit-platform-engine/1.11.0/junit-platform-engine-1.11.0.jar:/Users/mark/.m2/repository/javax/xml/bind/jaxb-api/2.2.12/jaxb-api-2.2.12.jar:"/>
@@ -30,7 +30,7 @@
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="apple.awt.application.name" value="ForkedBooter"/>
-    <property name="surefire.real.class.path" value="/Users/mark/Documents/Projects/java/console/jconsole/target/surefire/surefirebooter-20250427203007623_3.jar"/>
+    <property name="surefire.real.class.path" value="/Users/mark/Documents/Projects/java/console/jconsole/target/surefire/surefirebooter-20250427222739694_3.jar"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="java.runtime.version" value="21.0.2+13-LTS-58"/>
@@ -58,12 +58,16 @@
     <property name="socksNonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="java.class.version" value="65.0"/>
   </properties>
-  <testcase name="TestPromptWithArgs" classname="ConsoleTests" time="0.118">
-    <system-err><![CDATA[Apr 27, 2025 8:30:09 PM org.junit.jupiter.engine.descriptor.DisplayNameUtils determineDisplayName
-WARNING: Configuration error: @DisplayName on [void ConsoleTests.TestPromptWithArgs()] must be declared with a non-empty value.
-Apr 27, 2025 8:30:09 PM org.junit.jupiter.engine.descriptor.DisplayNameUtils determineDisplayName
-WARNING: Configuration error: @DisplayName on [void ConsoleTests.TestPromptWithArgs()] must be declared with a non-empty value.
+  <testcase name="TestPromptWithArgs" classname="ConsoleTests" time="0.353">
+    <system-err><![CDATA[Apr 27, 2025 10:27:41 PM org.junit.jupiter.engine.descriptor.DisplayNameUtils determineDisplayName
+WARNING: Configuration error: @DisplayName on [void ConsoleTests.TestPromptWithUnrecognisedCommand()] must be declared with a non-empty value.
+Apr 27, 2025 10:27:41 PM org.junit.jupiter.engine.descriptor.DisplayNameUtils determineDisplayName
+WARNING: Configuration error: @DisplayName on [void ConsoleTests.TestPromptWithUnrecognisedCommand()] must be declared with a non-empty value.
 ]]></system-err>
   </testcase>
-  <testcase name="TestPrompt" classname="ConsoleTests" time="0.008"/>
+  <testcase name="TestPromptWithUnrecognisedCommand" classname="ConsoleTests" time="0.067">
+    <system-out><![CDATA[Error: A command with the name 'This' cannot be found.
+]]></system-out>
+  </testcase>
+  <testcase name="TestPrompt" classname="ConsoleTests" time="0.005"/>
 </testsuite>
