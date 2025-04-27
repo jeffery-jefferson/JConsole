@@ -11,6 +11,16 @@ public class JCommandForTest extends JCommand<String> {
     
     @Override
     public String Invoke(String[] params) {
-        return "TESTED";
+        if (params.length == 0) {
+            return "TESTED";
+        } else if (params.length == 1) {
+            switch (params[0]) {
+                case "ONE": return "ONED";
+                case "TWO": return "TWOD";
+                case "THREE": return "THREED";
+                default: return "DEFAULTED";
+            }
+        }
+        return "...";
     }
 }
