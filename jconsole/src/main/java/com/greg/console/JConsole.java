@@ -1,5 +1,6 @@
 package com.greg.console;
 
+import java.util.Collection;
 import java.util.Scanner;
 
 import com.greg.console.Interfaces.IJConsole;
@@ -11,32 +12,35 @@ public class JConsole implements IJConsole {
 
     private CommandStringMap _commands;
     private Character _consoleInputSymbol = '@';
+    private Scanner _keyboard;
 
     public JConsole() {
+        this._keyboard = new Scanner(System.in);
         this._commands = new CommandStringMap();
-        TryAddCommand(new HelpCommand());
+        TryRegisterCommand(new HelpCommand());
+        TryRegisterCommand(new ListCommand());
+        TryRegisterCommand(new ExitCommand());
     }
 
     public int Run() {
         while (true) {
-            Prompt();
-            break;
+            if (Prompt() == null) {
+                break;
+            }
         }
         return 0;
     }
 
     public Object Prompt() {
-        Scanner keyboard = new Scanner(System.in);
         System.out.print(String.format("%c ", this._consoleInputSymbol));
-        var userInput = keyboard.nextLine();
-        keyboard.close();
+        var userInput = this._keyboard.nextLine();
 
-        return Prompt(userInput);
+        return RunCommand(userInput);
     }
 
-    public Object Prompt(String userInput) {
+    public Object RunCommand(String input) {
         try {
-            var stringArgsPair = CommandStringParser.GetCommandNameArgsPair(userInput);
+            var stringArgsPair = CommandStringParser.GetCommandNameArgsPair(input);
 
             var userCommand = this._commands.TryGetCommandByName(stringArgsPair.Item1);
             
@@ -44,11 +48,11 @@ public class JConsole implements IJConsole {
 
         } catch (Exception ex) {
             System.out.println(String.format("Error: %s", ex.getMessage()));
-            return null;
+            return false;
         }
     }
 
-    public boolean TryAddCommand(IJCommand command) {
+    public boolean TryRegisterCommand(IJCommand command) {
         try {
             this._commands.TryAddCommand(command);
             return true;
@@ -74,14 +78,33 @@ public class JConsole implements IJConsole {
         }
     }
 
-    private class ListCommands extends JCommand<Boolean> {
-        public ListCommands() {
+    private class ListCommand extends JCommand<Boolean> {
+        public ListCommand() {
             super("commands");
         }
 
         @Override
         public Boolean Invoke(String[] args) {
-            // loop through kvps
+            try {
+                Collection<IJCommand> commands = _commands.GetCommands();
+                for (IJCommand command : commands) {
+                    System.out.println(String.format(" - %s\nDescription: %s", command.GetCommandName(), command.GetCommandDescription()));
+                }
+                return true;
+            } catch (Exception ex) {
+                return false;
+            }
+        }
+    }
+
+    private class ExitCommand extends JCommand<Void> {
+        public ExitCommand() {
+            super("exit");
+        }
+
+        @Override
+        public Void Invoke(String[] args) {
+            return null;
         }
     }
     // endregion

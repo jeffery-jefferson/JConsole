@@ -6,7 +6,7 @@ public class Main {
 
         var console = new JConsole();
 
-        console.Prompt();
+        console.Run();
     }
 
 }

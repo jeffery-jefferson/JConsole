@@ -19,10 +19,10 @@ public class ConsoleTests {
     @DisplayName("Prompt should execute command with proper return type.")
     void TestPrompt() {
         var command = new JCommandForTest("TEST");
-        console.TryAddCommand(command);
+        console.TryRegisterCommand(command);
         command.ExpectedOutputForTest = "TESTED";
 
-        var result = console.Prompt("TEST");
+        var result = console.RunCommand("TEST");
 
         assertEquals(command.ExpectedOutputForTest, result);
     }
@@ -31,19 +31,33 @@ public class ConsoleTests {
     @DisplayName("Prompt should execute command including arguments with proper return type.")
     void TestPromptWithArgs() {
         var command = new JCommandForTest("TEST");
-        console.TryAddCommand(command);
+        console.TryRegisterCommand(command);
         command.ExpectedOutputForTest = "ONED";
 
-        var result = console.Prompt("TEST ONE");
+        var result = console.RunCommand("TEST ONE");
 
         assertEquals(command.ExpectedOutputForTest, result);
     }
 
     @Test
-    @DisplayName("")
+    @DisplayName("Prompt should return a false result when running a non-existent command.")
     void TestPromptWithUnrecognisedCommand() {
-        var result = console.Prompt("This doesn't exist");
+        var result = console.RunCommand("This doesn't exist");
 
-        assertEquals(null, result);
+        assertEquals(false, result);
+    }
+
+    @Test
+    void TestPredefinedCommand_Help() {
+        var result = console.RunCommand("help");
+
+        assertEquals(true, result);
+    }
+
+    @Test
+    void TestPredefinedCommand_List() {
+        var result = console.RunCommand("commands");
+
+        assertEquals(true, result);
     }
 }

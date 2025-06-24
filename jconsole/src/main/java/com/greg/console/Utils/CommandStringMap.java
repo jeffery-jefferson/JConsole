@@ -1,5 +1,6 @@
 package com.greg.console.Utils;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,6 +12,10 @@ public class CommandStringMap implements ICommandStringMap {
 
     public CommandStringMap() {
         this._commands = new HashMap<String, IJCommand>();
+    }
+
+    public Collection<IJCommand> GetCommands() throws Exception {
+        return this._commands.values();
     }
 
     public void TryAddCommand(IJCommand command) throws Exception {

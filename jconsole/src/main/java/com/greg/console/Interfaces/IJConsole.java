@@ -2,7 +2,7 @@ package com.greg.console.Interfaces;
 
 public interface IJConsole {
     public Object Prompt();
-    public Object Prompt(String userInput);
-    public boolean TryAddCommand(IJCommand command);
+    public Object RunCommand(String input);
+    public boolean TryRegisterCommand(IJCommand command);
     public int Run();
 }
