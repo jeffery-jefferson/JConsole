@@ -18,10 +18,11 @@ public class JConsole implements IJConsole {
     {
         this._keyboard = new Scanner(System.in);
         this._commands = new CommandStringMap();
-        TryRegisterCommand(new HelpCommand());
-        TryRegisterCommand(new ListCommand());
-        TryRegisterCommand(new ExitCommand());
+
         TryRegisterCommand(new SetConsoleSymbolCommand());
+        TryRegisterCommand(new HelpCommand());
+        TryRegisterCommand(new ExitCommand());
+        TryRegisterCommand(new ListCommand());
     }
 
     public int Run() 
@@ -149,6 +150,20 @@ public class JConsole implements IJConsole {
             SetConsoleSymbol(symbol);
             System.out.println(String.format("Console symbol successfully changed to %c", symbol));
             return true;
+        }
+    }
+
+    private class BlackjackCommand extends JCommand<Boolean>
+    {
+        public BlackjackCommand() 
+        {
+            super("blackjack");
+        }
+
+        @Override
+        public Boolean Invoke(String[] args) 
+        {
+            
         }
     }
 

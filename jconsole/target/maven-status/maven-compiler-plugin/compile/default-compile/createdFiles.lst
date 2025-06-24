@@ -1,10 +1,10 @@
+com/greg/console/Interfaces/IJCommandStringMap.class
 com/greg/console/Utils/Pair.class
 com/greg/console/JConsole$ExitCommand.class
 com/greg/console/Interfaces/IJCommand.class
 com/greg/console/JConsole$HelpCommand.class
 com/greg/console/JConsole.class
 com/greg/console/JConsole$SetConsoleSymbolCommand.class
-com/greg/console/Interfaces/ICommandStringMap.class
 com/greg/console/Utils/CommandStringMap.class
 com/greg/console/Utils/CommandStringParser.class
 com/greg/console/JConsole$ListCommand.class
