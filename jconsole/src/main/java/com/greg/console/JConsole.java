@@ -10,9 +10,9 @@ import com.greg.console.Utils.CommandStringParser;
 
 public class JConsole implements IJConsole {
 
+    private Scanner _keyboard;
     private CommandStringMap _commands;
     private Character _consoleInputSymbol = '@';
-    private Scanner _keyboard;
 
     public JConsole() {
         this._keyboard = new Scanner(System.in);
@@ -20,6 +20,7 @@ public class JConsole implements IJConsole {
         TryRegisterCommand(new HelpCommand());
         TryRegisterCommand(new ListCommand());
         TryRegisterCommand(new ExitCommand());
+        TryRegisterCommand(new SetConsoleSymbolCommand());
     }
 
     public int Run() {
@@ -34,7 +35,9 @@ public class JConsole implements IJConsole {
     public Object Prompt() {
         System.out.print(String.format("%c ", this._consoleInputSymbol));
         var userInput = this._keyboard.nextLine();
-
+        if (userInput.isEmpty()) {
+            return true;
+        }
         return RunCommand(userInput);
     }
 
@@ -94,6 +97,29 @@ public class JConsole implements IJConsole {
             } catch (Exception ex) {
                 return false;
             }
+        }
+    }
+
+    private class SetConsoleSymbolCommand extends JCommand<Boolean> {
+        public SetConsoleSymbolCommand() {
+            super("setsymbol");
+        }
+
+        @Override
+        public Boolean Invoke(String[] args) {
+            if (args.length != 1) {
+                System.out.println("Incorrect command use. Please enter a valid symbol.");
+                return false;
+            }
+            if (args[0].length() != 1) {
+                System.out.println("Incorrect command use. Please enter a valid symbol.");
+                return false;
+            }
+
+            var symbol = args[0].toCharArray()[0];
+            SetConsoleSymbol(symbol);
+            System.out.println(String.format("Console symbol successfully changed to %c", symbol));
+            return true;
         }
     }
 

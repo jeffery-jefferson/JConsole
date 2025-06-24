@@ -4,10 +4,10 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.greg.console.Interfaces.ICommandStringMap;
+import com.greg.console.Interfaces.IJCommandStringMap;
 import com.greg.console.Interfaces.IJCommand;
 
-public class CommandStringMap implements ICommandStringMap {
+public class CommandStringMap implements IJCommandStringMap {
     private Map<String, IJCommand> _commands;
 
     public CommandStringMap() {
