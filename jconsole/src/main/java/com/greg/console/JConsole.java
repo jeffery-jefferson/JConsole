@@ -14,7 +14,8 @@ public class JConsole implements IJConsole {
     private CommandStringMap _commands;
     private Character _consoleInputSymbol = '@';
 
-    public JConsole() {
+    public JConsole() 
+    {
         this._keyboard = new Scanner(System.in);
         this._commands = new CommandStringMap();
         TryRegisterCommand(new HelpCommand());
@@ -23,95 +24,123 @@ public class JConsole implements IJConsole {
         TryRegisterCommand(new SetConsoleSymbolCommand());
     }
 
-    public int Run() {
-        while (true) {
-            if (Prompt() == null) {
+    public int Run() 
+    {
+        while (true) 
+        {
+            if (Prompt() == null) 
+            {
                 break;
             }
         }
         return 0;
     }
 
-    public Object Prompt() {
+    public Object Prompt() 
+    {
         System.out.print(String.format("%c ", this._consoleInputSymbol));
         var userInput = this._keyboard.nextLine();
-        if (userInput.isEmpty()) {
+        if (userInput.isEmpty()) 
+        {
             return true;
         }
         return RunCommand(userInput);
     }
 
-    public Object RunCommand(String input) {
-        try {
+    public Object RunCommand(String input) 
+    {
+        try 
+        {
             var stringArgsPair = CommandStringParser.GetCommandNameArgsPair(input);
 
             var userCommand = this._commands.TryGetCommandByName(stringArgsPair.Item1);
             
             return userCommand.Invoke(stringArgsPair.Item2);
-
-        } catch (Exception ex) {
+        } 
+        catch (Exception ex) 
+        {
             System.out.println(String.format("Error: %s", ex.getMessage()));
             return false;
         }
     }
 
-    public boolean TryRegisterCommand(IJCommand command) {
-        try {
+    public boolean TryRegisterCommand(IJCommand command) 
+    {
+        try 
+        {
             this._commands.TryAddCommand(command);
             return true;
-        } catch (Exception ex) {
+        } 
+        catch (Exception ex) 
+        {
             return false;
         }
     }
 
-    public void SetConsoleSymbol(Character symbol) {
+    public void SetConsoleSymbol(Character symbol) 
+    {
         this._consoleInputSymbol = symbol;
     }
 
     // region Pre-defined Commands
-    private class HelpCommand extends JCommand<Boolean> {
-        public HelpCommand() {
+    private class HelpCommand extends JCommand<Boolean> 
+    {
+        public HelpCommand() 
+        {
             super("help");
         }
 
         @Override
-        public Boolean Invoke(String[] args) {
+        public Boolean Invoke(String[] args) 
+        {
             System.out.println("JConsole v1.0 2025 @Jeffery-Jefferson");
             return true;
         }
     }
 
-    private class ListCommand extends JCommand<Boolean> {
-        public ListCommand() {
+    private class ListCommand extends JCommand<Boolean> 
+    {
+        public ListCommand() 
+        {
             super("commands");
         }
 
         @Override
-        public Boolean Invoke(String[] args) {
-            try {
+        public Boolean Invoke(String[] args) 
+        {
+            try 
+            {
                 Collection<IJCommand> commands = _commands.GetCommands();
-                for (IJCommand command : commands) {
+                for (IJCommand command : commands) 
+                {
                     System.out.println(String.format(" - %s\nDescription: %s", command.GetCommandName(), command.GetCommandDescription()));
                 }
                 return true;
-            } catch (Exception ex) {
+            } 
+            catch (Exception ex) 
+            {
                 return false;
             }
         }
     }
 
-    private class SetConsoleSymbolCommand extends JCommand<Boolean> {
-        public SetConsoleSymbolCommand() {
+    private class SetConsoleSymbolCommand extends JCommand<Boolean> 
+    {
+        public SetConsoleSymbolCommand() 
+        {
             super("setsymbol");
         }
 
         @Override
-        public Boolean Invoke(String[] args) {
-            if (args.length != 1) {
+        public Boolean Invoke(String[] args) 
+        {
+            if (args.length != 1) 
+            {
                 System.out.println("Incorrect command use. Please enter a valid symbol.");
                 return false;
             }
-            if (args[0].length() != 1) {
+            if (args[0].length() != 1) 
+            {
                 System.out.println("Incorrect command use. Please enter a valid symbol.");
                 return false;
             }
@@ -123,13 +152,16 @@ public class JConsole implements IJConsole {
         }
     }
 
-    private class ExitCommand extends JCommand<Void> {
-        public ExitCommand() {
+    private class ExitCommand extends JCommand<Void> 
+    {
+        public ExitCommand() 
+        {
             super("exit");
         }
 
         @Override
-        public Void Invoke(String[] args) {
+        public Void Invoke(String[] args) 
+        {
             return null;
         }
     }
