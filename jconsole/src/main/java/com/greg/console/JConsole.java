@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Scanner;
 
 import com.greg.console.Interfaces.IJConsole;
+import com.greg.console.Secret.BlackjackGame;
 import com.greg.console.Interfaces.IJCommand;
 import com.greg.console.Utils.CommandStringMap;
 import com.greg.console.Utils.CommandStringParser;
@@ -23,6 +24,7 @@ public class JConsole implements IJConsole {
         TryRegisterCommand(new HelpCommand());
         TryRegisterCommand(new ExitCommand());
         TryRegisterCommand(new ListCommand());
+        TryRegisterCommand(new BlackjackCommand());
     }
 
     public int Run() 
@@ -163,7 +165,9 @@ public class JConsole implements IJConsole {
         @Override
         public Boolean Invoke(String[] args) 
         {
-            
+            var game = new BlackjackGame();
+            game.Run();
+            return true;
         }
     }
 

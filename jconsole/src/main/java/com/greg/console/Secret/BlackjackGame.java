@@ -6,12 +6,6 @@ import java.util.Random;
 public class BlackjackGame 
 {
     // region Constants
-    private String[] Numbers = {
-        "A", "2", "3", "4", "5",
-        "6", "7", "8", "9", "10",
-        "J", "Q", "K"
-    };
-
     private String[] Suits = {
         "H", "D", "C", "S"
     };
@@ -20,13 +14,31 @@ public class BlackjackGame
     // region Classes
     private class Card 
     {
-        private String number;
+        public static String[] Numbers = {
+            "A", "2", "3", "4", "5",
+            "6", "7", "8", "9", "10",
+            "J", "Q", "K"
+        };
+
+        private int number;
         private String suit;
 
-        public Card(String number, String suit) 
+        public Card(int number, String suit) 
         {
             this.number = number;
             this.suit = suit;
+        }
+
+        public String getNumberStr() {
+            return Numbers[this.number - 1];
+        }
+
+        public int getNumberInt() {
+            return this.number;
+        }
+
+        public String getSuit() {
+            return this.suit;
         }
         
         @Override
@@ -34,18 +46,79 @@ public class BlackjackGame
         {
             return number + suit;
         }
+
+        @Override
+        public boolean equals(Object obj) 
+        {
+            // Check if the compared objects are the same instance
+            if (this == obj) 
+            {
+                return true;
+            }
+
+            // Check if the obj is null or not the same class
+            if (obj == null || getClass() != obj.getClass()) 
+            {
+                return false;
+            }
+            // Cast the object to Person and compare the data members
+            Card other = (Card) obj;
+            return this.number == other.number && this.suit.equals(other.suit);
+        }
+
+        public int add(Card other)
+        {
+            return number + other.number;
+        }
     }
 
     private class Player
     {
         private ArrayList<Card> cards;
         private String name;
+        private PlayerType playerType;
         
-        public Player(String name) 
+        public Player(String name, PlayerType playerType) 
         {
             this.cards = new ArrayList<Card>();
             this.name = name;
+            this.playerType = playerType;
         }
+
+        public String getName() {
+            return this.name;
+        }
+
+        public PlayerType getPlayerType() {
+            return this.playerType;
+        }
+
+        public int getTotal() {
+            var total = 0;
+            for (var card : cards) {
+                total += card.getNumberInt();
+            }
+            return total;
+        }
+
+        @Override
+        public String toString()
+        {
+            var info = "Player: " + this.name + "\nCards:\n";
+            for (var card : this.cards)
+            {
+                info += card.toString() + "\n";
+            }
+            info += "Total: " + getTotal();
+            return info;
+        }
+    }
+    // endregion
+
+    // region Enums
+    private enum PlayerType 
+    {
+        Player, House
     }
     // endregion
 
@@ -60,13 +133,13 @@ public class BlackjackGame
         this.players = new ArrayList<Player>();
         for (int i = 1; i < numberOfPlayers; i++)
         {
-            this.players.add(new Player(String.format("Player %d", i)));
+            this.players.add(new Player(String.format("Player %d", i), PlayerType.Player));
         }
-        this.players.add(new Player("House"));
+        this.players.add(new Player("House", PlayerType.House));
 
         // set up deck
         var cards = new ArrayList<Card>();
-        for (var n : this.Numbers)
+        for (int n = 1; n <= 13; n++)
         {
             for (var suit : this.Suits)
             {
@@ -90,6 +163,29 @@ public class BlackjackGame
         return shuffledCards;
     }
 
+    private void dealCards(ArrayList<Player> players, ArrayList<Card> cards) 
+    {
+        var rand = new Random();
+        for (var player : players)
+        {
+            for (int i = 0; i < 2; i++) 
+            {
+                var randIndex = rand.nextInt(cards.size());
+                var selectedCard = cards.get(randIndex);
+                player.cards.add(selectedCard);
+                cards.remove(randIndex);
+            }
+        }
+    }
+
+    private void displayPlayerInfos(ArrayList<Player> players)
+    {
+        for (var player : players) 
+        {
+            System.out.println(player.toString());
+        }
+    }
+
     public void Run() 
     {
         Run(1);
@@ -98,5 +194,7 @@ public class BlackjackGame
     public void Run(int numberOfPlayers) 
     {
         setUp(numberOfPlayers);
+        dealCards(this.players, this.deck);
+        displayPlayerInfos(players);
     }
 }
