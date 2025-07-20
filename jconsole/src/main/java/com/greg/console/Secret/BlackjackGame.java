@@ -2,6 +2,7 @@ package com.greg.console.Secret;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Scanner;
 
 public class BlackjackGame 
 {
@@ -107,9 +108,9 @@ public class BlackjackGame
             var info = "Player: " + this.name + "\nCards:\n";
             for (var card : this.cards)
             {
-                info += card.toString() + "\n";
+                info += card.toString() + ", ";
             }
-            info += "Total: " + getTotal();
+            info += "\nTotal: " + getTotal();
             return info;
         }
     }
@@ -131,9 +132,15 @@ public class BlackjackGame
     {
         // set up players
         this.players = new ArrayList<Player>();
-        for (int i = 1; i < numberOfPlayers; i++)
+        if (numberOfPlayers == 1) {
+            this.players.add(new Player("You", PlayerType.Player));
+        }
+        else
         {
-            this.players.add(new Player(String.format("Player %d", i), PlayerType.Player));
+            for (int i = 1; i <= numberOfPlayers; i++)
+            {
+                this.players.add(new Player(String.format("Player %d", i), PlayerType.Player));
+            }
         }
         this.players.add(new Player("House", PlayerType.House));
 
@@ -163,19 +170,42 @@ public class BlackjackGame
         return shuffledCards;
     }
 
-    private void dealCards(ArrayList<Player> players, ArrayList<Card> cards) 
+    private Card drawTopCard(ArrayList<Card> cards) 
     {
-        var rand = new Random();
+        var selectedCard = cards.get(0);
+        cards.remove(0);
+        return selectedCard;
+    }
+
+    private void dealCards(ArrayList<Player> players, ArrayList<Card> shuffledCards) 
+    {
         for (var player : players)
         {
             for (int i = 0; i < 2; i++) 
             {
-                var randIndex = rand.nextInt(cards.size());
-                var selectedCard = cards.get(randIndex);
+                var selectedCard = drawTopCard(shuffledCards);
                 player.cards.add(selectedCard);
-                cards.remove(randIndex);
             }
         }
+    }
+
+    private void doPlayerRound(ArrayList<Player> players, ArrayList<Card> deck)
+    {
+        for (var player : players)
+        {
+            if (player.playerType == PlayerType.Player)
+            {
+                System.out.println("Hit or Stand? (1 | 2) ");
+                var scanner = new Scanner(System.in);
+                char input = scanner.nextLine().charAt(0);
+                if (input == '1')
+                {
+                    var card = drawTopCard(deck);
+                    player.cards.add(card);
+                }
+            }
+        }
+        displayPlayerInfos(players);
     }
 
     private void displayPlayerInfos(ArrayList<Player> players)
@@ -196,5 +226,6 @@ public class BlackjackGame
         setUp(numberOfPlayers);
         dealCards(this.players, this.deck);
         displayPlayerInfos(players);
+        doPlayerRound(players, deck);
     }
 }
